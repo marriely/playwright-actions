@@ -5,6 +5,8 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+# o comando abaixo é para ter o disparo do teste atraves de um evento manual
+  workflow_dispatch:
 jobs:
   e2e-tests:
     timeout-minutes: 60
