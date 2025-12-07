@@ -6,21 +6,32 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-  test:
+  e2e-tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    # o comando abaixo eu estou pegando o codigo do meu repositorio para fazer o teste
+    # ao editar esse arquivo no github eu posso adicionar outros plugins (dentro do martketplace) para melhorar o processo de teste
+    # todos os plugins são ativados pela palavra chave "uses"
+    - name: Get code 
+      uses: actions/checkout@v4
+
+    - name: Install Node  
+      uses: actions/setup-node@v4
       with:
         node-version: lts/*
+
     - name: Install dependencies
       run: npm install
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
+
+    - name: Run E2E tests
       run: npx playwright test
-    - uses: actions/upload-artifact@v4
+
+    - name: Publish HTML Report
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: playwright-report
